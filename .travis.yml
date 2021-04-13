@@ -1,11 +1,13 @@
 _shared_job: &shared_job
-  arch: 
-    - ppc64le
-    - amd64
+  env:
+    - t=1
+    - q=1
   script: echo "shared script config"
 jobs:
   include:
   - name: Job 1
+    arch: amd64
     <<: *shared_job
   - name: Job 2
+    arch: ppc64le
     <<: *shared_job
