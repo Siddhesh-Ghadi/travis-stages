@@ -1,14 +1,32 @@
 _shared_job: &shared_job
-  env:
-    jobs:
-      - t=1
-      - q=1
-  script: echo "shared script config"
+  jobs:
+   include:
+    - stage: Build multi-arch image
+      name: Build amd images
+      script:
+        - export DOCKER_CLI_EXPERIMENTAL=enabled
+        - echo "docker build"
+      before_deploy:
+        - echo "docker login"
+      deploy:
+        - provider: script
+          script: echo "docker push"
+          skip_cleanup: true
+    - name: Build ppc64le images
+      arch: ppc64le
+      script:
+        - export DOCKER_CLI_EXPERIMENTAL=enabled
+        - echo "docker build"
+      before_deploy:
+        - echo "docker login"
+      deploy:
+        - provider: script
+          script: echo "docker push"
+          skip_cleanup: true
+
 jobs:
   include:
   - name: Job 1
-    arch: amd64
     <<: *shared_job
   - name: Job 2
-    arch: ppc64le
     <<: *shared_job
