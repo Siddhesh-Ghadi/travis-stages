@@ -1,7 +1,8 @@
 _shared_job: &shared_job
   env:
-    - t=1
-    - q=1
+    jobs:
+      - t=1
+      - q=1
   script: echo "shared script config"
 jobs:
   include:
