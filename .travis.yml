@@ -8,6 +8,7 @@ jobs:
     name: Build amd images
     arch: amd64
     env:
+     jobs:
       - VERSION=4.5
       - VERSION=4.6
       - VERSION=4.7
@@ -23,6 +24,7 @@ jobs:
   - name: Build ppc64le images
     arch: ppc64le
     env:
+     jobs:
       - VERSION=4.5
       - VERSION=4.6
       - VERSION=4.7
@@ -39,6 +41,7 @@ jobs:
     name: Create manifest
     arch: amd64
     env:
+     jobs:
       - VERSION=4.5
       - VERSION=4.6
       - VERSION=4.7
