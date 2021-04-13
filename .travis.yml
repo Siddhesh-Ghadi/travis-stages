@@ -1,56 +1,9 @@
-os: linux
-dist: bionic
-services: docker
-
+_shared_job: &shared_job
+  arch: ppc64le
+  script: echo "shared script config"
 jobs:
- include:
-  - stage: Build multi-arch image
-    name: Build amd images
-    arch: amd64
-    env:
-     jobs:
-      - VERSION=4.5
-      - VERSION=4.6
-      - VERSION=4.7
-    script:
-      - export DOCKER_CLI_EXPERIMENTAL=enabled
-      - echo "docker build"
-    before_deploy:
-      - echo "docker login"
-    deploy:
-      - provider: script
-        script: echo "docker push"
-        skip_cleanup: true
-  - name: Build ppc64le images
-    arch: ppc64le
-    env:
-     jobs:
-      - VERSION=4.5
-      - VERSION=4.6
-      - VERSION=4.7
-    script:
-      - export DOCKER_CLI_EXPERIMENTAL=enabled
-      - echo "docker build"
-    before_deploy:
-      - echo "docker login"
-    deploy:
-      - provider: script
-        script: echo "docker push"
-        skip_cleanup: true
-  - stage: Create multi arch manifest
-    name: Create manifest
-    arch: amd64
-    env:
-     jobs:
-      - VERSION=4.5
-      - VERSION=4.6
-      - VERSION=4.7
-    script:
-      - export DOCKER_CLI_EXPERIMENTAL=enabled
-      - echo "create manifest"
-    before_deploy:
-        - echo "docker login"
-    deploy:
-        - provider: script
-          script: echo "docker push"
-          skip_cleanup: true
+  include:
+  - name: Job 1
+    <<: *shared_job
+  - name: Job 2
+    <<: *shared_job
